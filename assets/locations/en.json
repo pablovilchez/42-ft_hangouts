@@ -1,0 +1,21 @@
+{
+  "language": "English",
+  "contact_list_page_header": "Contact list",
+  "contact_list_empty": "No contacts found",
+  "contact_name": "Name",
+  "contact_last_name": "Last Name",
+  "contact_phone": "Phone",
+  "contact_email": "Email",
+  "contact_address": "Address",
+  "photo": "Photo",
+  "preferences_page_header": "Preferences",
+  "preferences_header_color": "Color",
+  "preferences_language": "Language",
+  "preferences_pick_color": "Pick a color",
+  "preferences_change_color": "change",
+  "form_page_header": "Form",
+  "form_required": "Required field",
+  "form_email_error": "Invalid email",
+  "form_save": "Save",
+  "form_cancel": "Cancel"
+}
