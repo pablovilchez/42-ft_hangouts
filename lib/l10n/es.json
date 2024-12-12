@@ -1,0 +1,21 @@
+{
+  "language": "Español",
+  "contact_list_page_header": "Lista de contactos",
+  "contact_list_empty": "No hay contactos",
+  "contact_name": "Nombre",
+  "contact_last_name": "Apellido",
+  "contact_phone": "Teléfono",
+  "contact_email": "Correo electrónico",
+  "contact_address": "Dirección",
+  "photo": "Foto",
+  "preferences_page_header": "Preferencias",
+  "preferences_header_color": "Color",
+  "preferences_language": "Idioma",
+  "preferences_pick_color": "Elige un color",
+  "preferences_change_color": "cambiar",
+  "form_page_header": "Formulario",
+  "form_required": "Campo requerido",
+  "form_email_error": "Correo electrónico inválido",
+  "form_save": "Guardar",
+  "form_cancel": "Cancelar"
+}
