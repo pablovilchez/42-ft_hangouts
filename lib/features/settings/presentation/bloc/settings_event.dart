@@ -1,23 +1,19 @@
-import 'package:flutter/material.dart';
+part of 'settings_bloc.dart';
 
-abstract class SettingsEvent {}
+sealed class SettingsEvent {}
 
 class LoadSettings extends SettingsEvent {}
 
-class UpdateTheme extends SettingsEvent {
-  final bool isLightTheme;
+class DarkModeChanged extends SettingsEvent {}
 
-  UpdateTheme(this.isLightTheme);
-}
-
-class UpdatePrimaryColor extends SettingsEvent {
+class PrimaryColorChanged extends SettingsEvent {
   final Color color;
 
-  UpdatePrimaryColor(this.color);
+  PrimaryColorChanged(this.color);
 }
 
-class UpdateLanguage extends SettingsEvent {
+class LanguageChanged extends SettingsEvent {
   final String languageCode;
 
-  UpdateLanguage(this.languageCode);
+  LanguageChanged(this.languageCode);
 }

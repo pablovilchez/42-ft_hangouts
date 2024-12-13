@@ -1,15 +1,17 @@
-import 'package:flutter/material.dart';
+part of 'settings_bloc.dart';
 
-abstract class SettingsState {}
+sealed class SettingsState {}
 
 class SettingsInitial extends SettingsState {}
 
 class SettingsLoaded extends SettingsState {
-  final bool isLightTheme;
-  final Color primaryColor;
-  final String languageCode;
+  final Settings settings;
 
-  SettingsLoaded(this.isLightTheme, this.primaryColor, this.languageCode);
+  SettingsLoaded(this.settings);
 }
 
-class SettingsUpdated extends SettingsState {}
+class SettingsError extends SettingsState {
+  final String message;
+
+  SettingsError(this.message);
+}

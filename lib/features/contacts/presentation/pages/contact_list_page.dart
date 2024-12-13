@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ft_hangouts/features/contacts/data/datasources/contact_local_datasource.dart';
 import 'package:ft_hangouts/features/contacts/presentation/bloc/contact_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class ContactListPage extends StatelessWidget {
   const ContactListPage({super.key});
@@ -24,6 +25,14 @@ class ContactListPage extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             title: const Text('Contacts'),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.settings),
+                onPressed: () {
+                  context.push('/settings');
+                },
+              ),
+            ],
           ),
           body: BlocProvider(
             create: (context) =>
