@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:ft_hangouts/core/localization/app_localizations.dart';
 import '../bloc/settings_bloc.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -10,7 +11,8 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
+        title:
+            Text(AppLocalizations.of(context).translate('settings_page_title')),
       ),
       body: BlocBuilder<SettingsBloc, SettingsState>(
         builder: (context, state) {
@@ -24,7 +26,8 @@ class SettingsPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SwitchListTile(
-                    title: const Text('Bright Mode'),
+                    title: Text(AppLocalizations.of(context)
+                        .translate('settings_dark_mode')),
                     value: state.settings.isDarkMode,
                     onChanged: (bool value) {
                       context.read<SettingsBloc>().add(DarkModeChanged());
@@ -32,14 +35,18 @@ class SettingsPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   ListTile(
-                    title: const Text('Primary Color'),
+                    title: Text(AppLocalizations.of(context)
+                        .translate('settings_primary_color')),
                     trailing: CircleAvatar(
                       backgroundColor: state.settings.primaryColor,
                     ),
                     onTap: () async {
-                      final color = await showColorPickerDialog(context, state.settings.primaryColor);
+                      final color = await showColorPickerDialog(
+                          context, state.settings.primaryColor);
                       if (color != null) {
-                        context.read<SettingsBloc>().add(PrimaryColorChanged(color));
+                        context
+                            .read<SettingsBloc>()
+                            .add(PrimaryColorChanged(color));
                       }
                     },
                   ),
@@ -47,12 +54,18 @@ class SettingsPage extends StatelessWidget {
 
                   // Language Selector
                   ListTile(
-                    title: const Text('Language'),
-                    subtitle: Text(state.settings.languageCode == 'en' ? 'English' : 'Español'),
+                    title: Text(AppLocalizations.of(context)
+                        .translate('settings_language')),
+                    subtitle: Text(state.settings.languageCode == 'en'
+                        ? 'English'
+                        : 'Español'),
                     onTap: () async {
-                      final String? newLang = await showLanguageDialog(context, state.settings.languageCode);
+                      final String? newLang = await showLanguageDialog(
+                          context, state.settings.languageCode);
                       if (newLang != null) {
-                        context.read<SettingsBloc>().add(LanguageChanged(newLang));
+                        context
+                            .read<SettingsBloc>()
+                            .add(LanguageChanged(newLang));
                       }
                     },
                   ),
@@ -60,36 +73,45 @@ class SettingsPage extends StatelessWidget {
               ),
             );
           }
-          return const Center(child: Text('Something went wrong'));
+          return Center(
+              child: Text(
+                  AppLocalizations.of(context).translate('error_undefined')));
         },
       ),
     );
   }
 
-  Future<Color?> showColorPickerDialog(BuildContext context, Color currentColor) {
+  Future<Color?> showColorPickerDialog(
+      BuildContext context, Color currentColor) {
+    Color selectedColor = currentColor;
+
     return showDialog<Color>(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Pick a color'),
+          title: Text(
+              AppLocalizations.of(context).translate('settings_pick_color')),
           content: SingleChildScrollView(
-            child: ColorPicker(
+            child: BlockPicker(
               pickerColor: currentColor,
-              onColorChanged: (color) {},
+              onColorChanged: (color) {
+                selectedColor = color;
+              },
             ),
           ),
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(currentColor);
+                Navigator.of(context).pop();
               },
-              child: const Text('Cancel'),
+              child:
+                  Text(AppLocalizations.of(context).translate('text_cancel')),
             ),
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(currentColor);
+                Navigator.of(context).pop(selectedColor);
               },
-              child: const Text('Select'),
+              child: Text(AppLocalizations.of(context).translate('text_save')),
             ),
           ],
         );
@@ -97,12 +119,14 @@ class SettingsPage extends StatelessWidget {
     );
   }
 
-  Future<String?> showLanguageDialog(BuildContext context, String currentLanguage) {
+  Future<String?> showLanguageDialog(
+      BuildContext context, String currentLanguage) {
     return showDialog<String>(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Select Language'),
+          title: Text(
+              AppLocalizations.of(context).translate('settings_pick_language')),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

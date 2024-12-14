@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ft_hangouts/core/localization/app_localizations.dart';
 import 'package:ft_hangouts/features/contacts/data/datasources/contact_local_datasource.dart';
 import 'package:ft_hangouts/features/contacts/presentation/bloc/contact_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -24,7 +25,8 @@ class ContactListPage extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Contacts'),
+            title: Text(
+                AppLocalizations.of(context).translate('contacts_page_title')),
             actions: [
               IconButton(
                 icon: const Icon(Icons.settings),
@@ -50,8 +52,9 @@ class ContactListPage extends StatelessWidget {
                 } else if (state is ContactLoaded) {
                   final contacts = state.contacts;
                   return contacts.isEmpty
-                      ? const Center(
-                          child: Text('No contacts found'),
+                      ? Center(
+                          child: Text(AppLocalizations.of(context)
+                              .translate('contacts_page_empty')),
                         )
                       : ListView.builder(
                           itemCount: contacts.length,
@@ -64,16 +67,23 @@ class ContactListPage extends StatelessWidget {
                           },
                         );
                 } else {
-                  return const Center(
-                    child: Text('No contacts found'),
+                  return Center(
+                    child: Text(AppLocalizations.of(context)
+                        .translate('error_contacts_page')),
                   );
                 }
               },
             ),
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {},
-            child: const Icon(Icons.add),
+          floatingActionButton: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: FloatingActionButton(
+              onPressed: () {
+                context.push('/add_contact');
+              },
+              backgroundColor: Theme.of(context).primaryColor,
+              child: const Icon(Icons.add),
+            ),
           ),
         );
       },

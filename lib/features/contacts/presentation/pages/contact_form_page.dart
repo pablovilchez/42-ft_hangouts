@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ft_hangouts/core/localization/app_localizations.dart';
 import 'package:ft_hangouts/features/contacts/presentation/bloc/contact_bloc.dart';
 import 'package:ft_hangouts/features/contacts/domain/entities/contact.dart';
 
@@ -52,7 +53,7 @@ class _ContactFormPageState extends State<ContactFormPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Contact'),
+        title: Text(AppLocalizations.of(context).translate('form_page_title')),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -62,44 +63,59 @@ class _ContactFormPageState extends State<ContactFormPage> {
             children: [
               TextFormField(
                 controller: _nameController,
-                decoration: const InputDecoration(labelText: 'Name'),
+                decoration: InputDecoration(
+                    labelText:
+                        AppLocalizations.of(context).translate('contact_name')),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter a name';
+                    return AppLocalizations.of(context)
+                        .translate('error_bad_name');
                   }
                   return null;
                 },
               ),
               TextFormField(
                 controller: _phoneController,
-                decoration: const InputDecoration(labelText: 'Phone'),
+                decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)
+                        .translate('contact_phone')),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter a phone number';
+                    return AppLocalizations.of(context)
+                        .translate('error_bad_phone');
                   }
                   return null;
                 },
               ),
               TextFormField(
                 controller: _lastNameController,
-                decoration: const InputDecoration(labelText: 'Last Name'),
+                decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)
+                        .translate('contact_last_name')),
               ),
               TextFormField(
                 controller: _emailController,
-                decoration: const InputDecoration(labelText: 'Email'),
+                decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)
+                        .translate('contact_email')),
               ),
               TextFormField(
                 controller: _addressController,
-                decoration: const InputDecoration(labelText: 'Address'),
+                decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)
+                        .translate('contact_address')),
               ),
               TextFormField(
                 controller: _photoController,
-                decoration: const InputDecoration(labelText: 'Photo'),
+                decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)
+                        .translate('contact_photo')),
               ),
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _submitForm,
-                child: const Text('Save'),
+                child:
+                    Text(AppLocalizations.of(context).translate('text_save')),
               ),
             ],
           ),
