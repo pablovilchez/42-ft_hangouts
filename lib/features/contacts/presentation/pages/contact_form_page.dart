@@ -5,7 +5,9 @@ import 'package:ft_hangouts/features/contacts/presentation/bloc/contact_bloc.dar
 import 'package:ft_hangouts/features/contacts/domain/entities/contact.dart';
 
 class ContactFormPage extends StatefulWidget {
-  const ContactFormPage({super.key});
+  final Contact? contact;
+
+  const ContactFormPage({super.key, this.contact});
 
   @override
   _ContactFormPageState createState() => _ContactFormPageState();
@@ -14,8 +16,8 @@ class ContactFormPage extends StatefulWidget {
 class _ContactFormPageState extends State<ContactFormPage> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
-  final _phoneController = TextEditingController();
   final _lastNameController = TextEditingController();
+  final _phoneController = TextEditingController();
   final _emailController = TextEditingController();
   final _addressController = TextEditingController();
   final _photoController = TextEditingController();
@@ -23,28 +25,57 @@ class _ContactFormPageState extends State<ContactFormPage> {
   @override
   void dispose() {
     _nameController.dispose();
+    _lastNameController.dispose();
     _phoneController.dispose();
+    _emailController.dispose();
+    _addressController.dispose();
+    _photoController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.contact != null) {
+      _nameController.text = widget.contact!.name;
+      _lastNameController.text = widget.contact!.lastName;
+      _phoneController.text = widget.contact!.phone;
+      _emailController.text = widget.contact!.email;
+      _addressController.text = widget.contact!.address;
+      _photoController.text = widget.contact!.photo;
+    }
   }
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
-      final name = _nameController.text;
-      final phone = _phoneController.text;
-      final lastName = _lastNameController.text;
-      final email = _emailController.text;
-      final address = _addressController.text;
-      final photo = _photoController.text;
-      final newContact = Contact(
-        name: name,
-        phone: phone,
-        lastName: '',
-        email: '',
-        address: '',
-        photo: '',
+      final updatedContact = Contact(
+        name: _nameController.text,
+        lastName: _lastNameController.text,
+        phone: _phoneController.text,
+        email: _emailController.text,
+        address: _addressController.text,
+        photo: _photoController.text,
       );
 
-      context.read<ContactBloc>().add(AddContact(newContact));
+      if (widget.contact == null) {
+        context.read<ContactBloc>().add(AddContact(updatedContact));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content:
+                Text(AppLocalizations.of(context).translate('contact_added')),
+          ),
+        );
+      } else {
+        context.read<ContactBloc>().add(UpdateContact(updatedContact));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content:
+                Text(AppLocalizations.of(context).translate('contact_updated')),
+          ),
+        );
+      }
+      
       Navigator.of(context).pop();
     }
   }
@@ -69,20 +100,7 @@ class _ContactFormPageState extends State<ContactFormPage> {
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return AppLocalizations.of(context)
-                        .translate('error_bad_name');
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _phoneController,
-                decoration: InputDecoration(
-                    labelText: AppLocalizations.of(context)
-                        .translate('contact_phone')),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return AppLocalizations.of(context)
-                        .translate('error_bad_phone');
+                        .translate('form_required');
                   }
                   return null;
                 },
@@ -92,6 +110,19 @@ class _ContactFormPageState extends State<ContactFormPage> {
                 decoration: InputDecoration(
                     labelText: AppLocalizations.of(context)
                         .translate('contact_last_name')),
+              ),
+              TextFormField(
+                controller: _phoneController,
+                decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)
+                        .translate('contact_phone')),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return AppLocalizations.of(context)
+                        .translate('form_required');
+                  }
+                  return null;
+                },
               ),
               TextFormField(
                 controller: _emailController,

@@ -2,6 +2,7 @@ import '../../domain/entities/contact.dart';
 
 class ContactModel extends Contact {
   ContactModel({
+    required super.id,
     required super.name,
     required super.lastName,
     required super.phone,
@@ -12,6 +13,7 @@ class ContactModel extends Contact {
 
   factory ContactModel.fromMap(Map<String, dynamic> map) {
     return ContactModel(
+      id: map['id'],
       name: map['name'],
       lastName: map['lastName'],
       phone: map['phone'],
@@ -23,6 +25,7 @@ class ContactModel extends Contact {
 
   factory ContactModel.fromEntity(Contact contact) {
     return ContactModel(
+      id: contact.id,
       name: contact.name,
       lastName: contact.lastName,
       phone: contact.phone,
@@ -32,9 +35,9 @@ class ContactModel extends Contact {
     );
   }
 
-  @override
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'name': name,
       'lastName': lastName,
       'phone': phone,
@@ -46,6 +49,7 @@ class ContactModel extends Contact {
 
   Contact toEntity() {
     return Contact(
+      id: id,
       name: name,
       lastName: lastName,
       phone: phone,

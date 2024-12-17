@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ft_hangouts/core/di/service_locator.dart';
+import 'package:ft_hangouts/core/di/dependency_injection.dart';
 import 'package:ft_hangouts/features/settings/domain/entities/settings.dart';
 import 'package:ft_hangouts/features/settings/domain/usecases/get_settings_usecase.dart';
 import 'package:ft_hangouts/features/settings/domain/usecases/save_settings_usecase.dart';

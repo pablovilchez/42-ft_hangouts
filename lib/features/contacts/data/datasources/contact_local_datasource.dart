@@ -2,7 +2,6 @@ import 'package:sqflite/sqflite.dart';
 
 import '../models/contact_model.dart';
 
-
 class ContactLocalDataSource {
   Database? _database;
 
