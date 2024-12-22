@@ -8,7 +8,6 @@ class ContactModel extends Contact {
     required super.phone,
     required super.email,
     required super.address,
-    required super.photo,
   });
 
   factory ContactModel.fromMap(Map<String, dynamic> map) {
@@ -19,7 +18,6 @@ class ContactModel extends Contact {
       phone: map['phone'],
       email: map['email'],
       address: map['address'],
-      photo: map['photo'],
     );
   }
 
@@ -31,7 +29,6 @@ class ContactModel extends Contact {
       phone: contact.phone,
       email: contact.email,
       address: contact.address,
-      photo: contact.photo,
     );
   }
 
@@ -43,7 +40,7 @@ class ContactModel extends Contact {
       'phone': phone,
       'email': email,
       'address': address,
-      'photo': photo,
+      'photo': '',
     };
   }
 
@@ -55,7 +52,6 @@ class ContactModel extends Contact {
       phone: phone,
       email: email,
       address: address,
-      photo: photo,
     );
   }
 }

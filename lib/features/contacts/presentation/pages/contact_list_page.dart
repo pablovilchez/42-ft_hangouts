@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ft_hangouts/core/localization/app_localizations.dart';
+import 'package:ft_hangouts/features/contacts/domain/entities/contact.dart';
 import 'package:ft_hangouts/features/contacts/presentation/bloc/contact_bloc.dart';
 import 'package:go_router/go_router.dart';
 
@@ -9,6 +10,8 @@ class ContactListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    precacheImage(
+        const AssetImage('assets/images/default_avatar.jpg'), context);
     return BlocConsumer<ContactBloc, ContactState>(
       listener: (context, state) {
         if (state is ContactError) {
@@ -72,17 +75,14 @@ Widget _buildBody(BuildContext context, ContactState state) {
             itemBuilder: (context, index) {
               final contact = contacts[index];
               return ListTile(
-                leading: CircleAvatar(
-                  radius: 25,
-                  backgroundImage: contact.photo != ''
-                      ? const AssetImage('assets/images/default_avatar.jpg')
-                      : const AssetImage('assets/images/default_avatar.jpg'),
-                ),
+                leading: const CircleAvatar(
+                    radius: 25,
+                    backgroundImage:
+                        AssetImage('assets/images/default_avatar.jpg')),
                 title: Text('${contact.name} ${contact.lastName}',
                     style: const TextStyle(fontSize: 18)),
                 subtitle: Text(contact.phone),
                 onTap: () {
-                  print('**** DEBUG: contact tapped: ${contact.id}');
                   showModalBottomSheet(
                     context: context,
                     builder: (context) {
@@ -99,7 +99,7 @@ Widget _buildBody(BuildContext context, ContactState state) {
                             title: Text(AppLocalizations.of(context)
                                 .translate('action_view')),
                             onTap: () {
-                              // call the contact
+                              _showContactDetails(context, contact);
                             },
                           ),
                           ListTile(
@@ -186,4 +186,89 @@ Widget _buildBody(BuildContext context, ContactState state) {
           Text(AppLocalizations.of(context).translate('error_contacts_page')),
     );
   }
+}
+
+void _showContactDetails(BuildContext context, Contact contact) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    ),
+    builder: (context) {
+      return LayoutBuilder(
+        builder: (context, constraints) {
+          final isLandScape = constraints.maxWidth > constraints.maxHeight;
+          return DraggableScrollableSheet(
+            initialChildSize: isLandScape ? 0.3 : 0.7,
+            minChildSize: isLandScape ? 0.3 : 0.7,
+            maxChildSize: isLandScape ? 0.7 : 0.8,
+            builder: (_, scrollController) {
+              return Container(
+                padding: const EdgeInsets.all(20.0),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor.withOpacity(0.1),
+                  borderRadius:
+                      const BorderRadius.vertical(top: Radius.circular(20)),
+                ),
+                child: ListView(
+                  controller: scrollController,
+                  children: [
+                    const Center(
+                      child: CircleAvatar(
+                        radius: 50,
+                        backgroundImage:
+                            AssetImage('assets/images/default_avatar.jpg'),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      '${contact.name} ${contact.lastName}',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      contact.phone,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 18, color: Colors.grey),
+                    ),
+                    const Divider(height: 30),
+                    ListTile(
+                      leading: const Icon(Icons.email),
+                      title: Text(contact.email),
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.home),
+                      title: Text(contact.address),
+                    ),
+                    const SizedBox(height: 20),
+                    Align(
+                      alignment: Alignment.center,
+                      child: OutlinedButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        style: OutlinedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
+                        ),
+                        child: Text(
+                          AppLocalizations.of(context).translate('text_back'),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        },
+      );
+    },
+  );
 }

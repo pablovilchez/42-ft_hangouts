@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ft_hangouts/core/localization/app_localizations.dart';
@@ -20,7 +22,6 @@ class _ContactFormPageState extends State<ContactFormPage> {
   final _phoneController = TextEditingController();
   final _emailController = TextEditingController();
   final _addressController = TextEditingController();
-  final _photoController = TextEditingController();
 
   @override
   void dispose() {
@@ -29,7 +30,6 @@ class _ContactFormPageState extends State<ContactFormPage> {
     _phoneController.dispose();
     _emailController.dispose();
     _addressController.dispose();
-    _photoController.dispose();
     super.dispose();
   }
 
@@ -43,19 +43,18 @@ class _ContactFormPageState extends State<ContactFormPage> {
       _phoneController.text = widget.contact!.phone;
       _emailController.text = widget.contact!.email;
       _addressController.text = widget.contact!.address;
-      _photoController.text = widget.contact!.photo;
     }
   }
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       final updatedContact = Contact(
+        id: widget.contact?.id,
         name: _nameController.text,
         lastName: _lastNameController.text,
         phone: _phoneController.text,
         email: _emailController.text,
         address: _addressController.text,
-        photo: _photoController.text,
       );
 
       if (widget.contact == null) {
@@ -75,7 +74,7 @@ class _ContactFormPageState extends State<ContactFormPage> {
           ),
         );
       }
-      
+
       Navigator.of(context).pop();
     }
   }
@@ -94,6 +93,7 @@ class _ContactFormPageState extends State<ContactFormPage> {
             children: [
               TextFormField(
                 controller: _nameController,
+                textCapitalization: TextCapitalization.words,
                 decoration: InputDecoration(
                     labelText:
                         AppLocalizations.of(context).translate('contact_name')),
@@ -107,12 +107,14 @@ class _ContactFormPageState extends State<ContactFormPage> {
               ),
               TextFormField(
                 controller: _lastNameController,
+                textCapitalization: TextCapitalization.words,
                 decoration: InputDecoration(
                     labelText: AppLocalizations.of(context)
                         .translate('contact_last_name')),
               ),
               TextFormField(
                 controller: _phoneController,
+                keyboardType: TextInputType.phone,
                 decoration: InputDecoration(
                     labelText: AppLocalizations.of(context)
                         .translate('contact_phone')),
@@ -126,6 +128,7 @@ class _ContactFormPageState extends State<ContactFormPage> {
               ),
               TextFormField(
                 controller: _emailController,
+                keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                     labelText: AppLocalizations.of(context)
                         .translate('contact_email')),
@@ -136,17 +139,30 @@ class _ContactFormPageState extends State<ContactFormPage> {
                     labelText: AppLocalizations.of(context)
                         .translate('contact_address')),
               ),
-              TextFormField(
-                controller: _photoController,
-                decoration: InputDecoration(
-                    labelText: AppLocalizations.of(context)
-                        .translate('contact_photo')),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _submitForm,
-                child:
-                    Text(AppLocalizations.of(context).translate('text_save')),
+              const SizedBox(height: 40),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FilledButton(
+                    style: ButtonStyle(
+                      backgroundColor:
+                          WidgetStateProperty.all(Colors.redAccent),
+                    ),
+                    onPressed: Navigator.of(context).pop,
+                    child: Text(
+                        AppLocalizations.of(context).translate('text_cancel')),
+                  ),
+                  const SizedBox(width: 20),
+                  FilledButton(
+                    style: ButtonStyle(
+                      backgroundColor:
+                          WidgetStateProperty.all(Colors.greenAccent),
+                    ),
+                    onPressed: _submitForm,
+                    child: Text(
+                        AppLocalizations.of(context).translate('text_save')),
+                  ),
+                ],
               ),
             ],
           ),

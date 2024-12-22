@@ -24,3 +24,9 @@ final class UpdateContact extends ContactEvent {
 
   UpdateContact(this.contact);
 }
+
+final class SelectContactImage extends ContactEvent {
+  final String userId;
+
+  SelectContactImage(this.userId);
+}

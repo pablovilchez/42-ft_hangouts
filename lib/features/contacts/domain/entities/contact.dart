@@ -5,7 +5,6 @@ class Contact {
   final String phone;
   final String email;
   final String address;
-  final String photo;
 
   Contact({
     this.id,
@@ -14,6 +13,5 @@ class Contact {
     required this.phone,
     required this.email,
     required this.address,
-    required this.photo,
   });
 }

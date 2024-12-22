@@ -29,6 +29,10 @@ class SettingsPage extends StatelessWidget {
                     title: Text(AppLocalizations.of(context)
                         .translate('settings_dark_mode')),
                     value: state.settings.isDarkMode,
+                    activeColor: state.settings.primaryColor,
+                    inactiveThumbColor: state.settings.primaryColor,
+                    trackOutlineColor: WidgetStateProperty.all(
+                        state.settings.primaryColor.withOpacity(0.5)),
                     onChanged: (bool value) {
                       context.read<SettingsBloc>().add(DarkModeChanged());
                     },
