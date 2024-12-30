@@ -9,6 +9,7 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final settingsBloc = context.read<SettingsBloc>();
     return Scaffold(
       appBar: AppBar(
         title:
@@ -48,9 +49,7 @@ class SettingsPage extends StatelessWidget {
                       final color = await showColorPickerDialog(
                           context, state.settings.primaryColor);
                       if (color != null) {
-                        context
-                            .read<SettingsBloc>()
-                            .add(PrimaryColorChanged(color));
+                        settingsBloc.add(PrimaryColorChanged(color));
                       }
                     },
                   ),
@@ -67,9 +66,7 @@ class SettingsPage extends StatelessWidget {
                       final String? newLang = await showLanguageDialog(
                           context, state.settings.languageCode);
                       if (newLang != null) {
-                        context
-                            .read<SettingsBloc>()
-                            .add(LanguageChanged(newLang));
+                        settingsBloc.add(LanguageChanged(newLang));
                       }
                     },
                   ),

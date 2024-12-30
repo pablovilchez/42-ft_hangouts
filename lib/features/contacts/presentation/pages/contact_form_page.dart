@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ft_hangouts/core/localization/app_localizations.dart';
@@ -12,10 +10,10 @@ class ContactFormPage extends StatefulWidget {
   const ContactFormPage({super.key, this.contact});
 
   @override
-  _ContactFormPageState createState() => _ContactFormPageState();
+  ContactFormPageState createState() => ContactFormPageState();
 }
 
-class _ContactFormPageState extends State<ContactFormPage> {
+class ContactFormPageState extends State<ContactFormPage> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _lastNameController = TextEditingController();
@@ -85,88 +83,100 @@ class _ContactFormPageState extends State<ContactFormPage> {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).translate('form_page_title')),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                controller: _nameController,
-                textCapitalization: TextCapitalization.words,
-                decoration: InputDecoration(
-                    labelText:
-                        AppLocalizations.of(context).translate('contact_name')),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return AppLocalizations.of(context)
-                        .translate('form_required');
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _lastNameController,
-                textCapitalization: TextCapitalization.words,
-                decoration: InputDecoration(
-                    labelText: AppLocalizations.of(context)
-                        .translate('contact_last_name')),
-              ),
-              TextFormField(
-                controller: _phoneController,
-                keyboardType: TextInputType.phone,
-                decoration: InputDecoration(
-                    labelText: AppLocalizations.of(context)
-                        .translate('contact_phone')),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return AppLocalizations.of(context)
-                        .translate('form_required');
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _emailController,
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                    labelText: AppLocalizations.of(context)
-                        .translate('contact_email')),
-              ),
-              TextFormField(
-                controller: _addressController,
-                decoration: InputDecoration(
-                    labelText: AppLocalizations.of(context)
-                        .translate('contact_address')),
-              ),
-              const SizedBox(height: 40),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  FilledButton(
-                    style: ButtonStyle(
-                      backgroundColor:
-                          WidgetStateProperty.all(Colors.redAccent),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 400),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Form(
+                  key: _formKey,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          controller: _nameController,
+                          textCapitalization: TextCapitalization.words,
+                          decoration: InputDecoration(
+                              labelText:
+                                  AppLocalizations.of(context).translate('contact_name')),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return AppLocalizations.of(context)
+                                  .translate('form_required');
+                            }
+                            return null;
+                          },
+                        ),
+                        TextFormField(
+                          controller: _lastNameController,
+                          textCapitalization: TextCapitalization.words,
+                          decoration: InputDecoration(
+                              labelText: AppLocalizations.of(context)
+                                  .translate('contact_last_name')),
+                        ),
+                        TextFormField(
+                          controller: _phoneController,
+                          keyboardType: TextInputType.phone,
+                          decoration: InputDecoration(
+                              labelText: AppLocalizations.of(context)
+                                  .translate('contact_phone')),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return AppLocalizations.of(context)
+                                  .translate('form_required');
+                            }
+                            return null;
+                          },
+                        ),
+                        TextFormField(
+                          controller: _emailController,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(
+                              labelText: AppLocalizations.of(context)
+                                  .translate('contact_email')),
+                        ),
+                        TextFormField(
+                          controller: _addressController,
+                          decoration: InputDecoration(
+                              labelText: AppLocalizations.of(context)
+                                  .translate('contact_address')),
+                        ),
+                        const SizedBox(height: 40),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            FilledButton(
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    WidgetStateProperty.all(Colors.redAccent),
+                              ),
+                              onPressed: Navigator.of(context).pop,
+                              child: Text(
+                                  AppLocalizations.of(context).translate('text_cancel')),
+                            ),
+                            const SizedBox(width: 20),
+                            FilledButton(
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    WidgetStateProperty.all(Colors.greenAccent),
+                              ),
+                              onPressed: _submitForm,
+                              child: Text(
+                                  AppLocalizations.of(context).translate('text_save')),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                    onPressed: Navigator.of(context).pop,
-                    child: Text(
-                        AppLocalizations.of(context).translate('text_cancel')),
                   ),
-                  const SizedBox(width: 20),
-                  FilledButton(
-                    style: ButtonStyle(
-                      backgroundColor:
-                          WidgetStateProperty.all(Colors.greenAccent),
-                    ),
-                    onPressed: _submitForm,
-                    child: Text(
-                        AppLocalizations.of(context).translate('text_save')),
-                  ),
-                ],
+                ),
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

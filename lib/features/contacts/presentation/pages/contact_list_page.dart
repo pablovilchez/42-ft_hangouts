@@ -4,6 +4,7 @@ import 'package:ft_hangouts/core/localization/app_localizations.dart';
 import 'package:ft_hangouts/features/contacts/domain/entities/contact.dart';
 import 'package:ft_hangouts/features/contacts/presentation/bloc/contact_bloc.dart';
 import 'package:go_router/go_router.dart';
+// import 'package:sms_advanced/sms_advanced.dart';
 
 class ContactListPage extends StatelessWidget {
   const ContactListPage({super.key});
@@ -115,7 +116,7 @@ Widget _buildBody(BuildContext context, ContactState state) {
                             title: Text(AppLocalizations.of(context)
                                 .translate('action_send_message')),
                             onTap: () {
-                              // send a message to the contact
+                              // _showChatPage(context, contact);
                             },
                           ),
                           ListTile(
@@ -272,3 +273,16 @@ void _showContactDetails(BuildContext context, Contact contact) {
     },
   );
 }
+
+// void _showChatPage(BuildContext context, Contact contact) async {
+//   final SmsQuery smsQuery = SmsQuery();
+//
+//   // context.push(
+//   //   '/chat',
+//   //   extra: contact,
+//   // );
+//   // For now, only want to print in console some data
+//
+//   List<SmsMessage> threads = await smsQuery.getAllSms;
+//
+// }
